@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Minyature</title>
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    </head>
+    <body class="bg gray-200 py-8">
+        <div class ="px-4 flex justify-center">
+            <div class ="w-full md:w-6/12 lg:w-4/12">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

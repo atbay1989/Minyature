@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Models\Message;
 use Psr\Http\Message\{
     ServerRequestInterface as Request,
     ResponseInterface as Response
@@ -20,7 +21,10 @@ class MessageController extends Controller
      */
     public function store(Request $request, Response $response, $args)
     {
-        dump($request->getParsedBody());
-        return $response;
+        ['email' => $email, 'message' => $message] = $request->getParsedBody();
+
+        $message = Message::create(['message' => $message]);
+
+        return $response->withHeader('Location', '/');
     }
 }

@@ -2,8 +2,11 @@
 
 session_start();
 
+use App\Commands\SendMessageCommand;
+use App\Handlers\SendMessageHandler;
 use Dotenv\Dotenv;
 use Dotenv\Exception\InvalidPathException;
+use League\Tactician\Setup\QuickStart;
 use Slim\Views\Twig;
 use Slim\Factory\AppFactory;
 use Slim\Views\TwigExtension;
@@ -53,6 +56,23 @@ $container->set('view', function ($container) use ($app) {
 
 $container->set('flash', function () {
     return new Messages();
+});
+
+$container->set('email', function () {
+    $transport = (new Swift_SmtpTransport(getenv('SMTP_HOST'), 25))
+    ->setUsername(getenv('SMTP_USERNAME'))
+    ->setPassword(getenv('SMTP_PASSWORD'));
+
+    return new Swift_Mailer($transport);
+});
+
+$container->set('bus', function ($container) {
+    return QuickStart::create([
+        SendMessageCommand::class => new SendMessageHandler(
+            $container->get('view'),
+            $container->get('email')
+            )
+    ]);
 });
 
 require_once __DIR__ . '/database.php';

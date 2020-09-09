@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
-
+use App\Commands\SendMessageCommand;
 use App\Controllers\Controller;
 use App\Models\Message;
 use Psr\Http\Message\{
     ServerRequestInterface as Request,
     ResponseInterface as Response
 };
-
+use Swift_Message;
 
 class MessageController extends Controller
 {
@@ -32,6 +32,9 @@ class MessageController extends Controller
             'message' => $message,
 
         ]);
+
+        $this->c->get('bus')->handle(new SendMessageCommand($email, $message));
+
 
         $this->c->get('flash')->addMessage('success', 'Message has been sent.');
 

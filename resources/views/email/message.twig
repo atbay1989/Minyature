@@ -1,0 +1,5 @@
+<p>You have a new message sent with Minyature</p>
+
+{% set href = full_url_for('messages.show', { 'uuid': message.uuid}) %}
+
+<a href="{{ href }}">Click here to read it at {{ href }}</a>

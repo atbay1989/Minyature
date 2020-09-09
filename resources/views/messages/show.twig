@@ -6,6 +6,6 @@
         {{message.message}}
     </div>
     {% else %}
-        {% include 'partials/_success.twig' with { 'message': 'This message has been destroyed.' } %}
+        {% include 'partials/_error.twig' with { 'message': 'This message has been destroyed.' } %}
     {% endif %}
 {% endblock %}

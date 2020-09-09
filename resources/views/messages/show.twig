@@ -1,0 +1,11 @@
+{% extends 'app.twig' %}
+
+{% block content %}
+    {% if message %}
+    <div action="{{ url_for('messages.store') }}" method="POST" class="bg-white p-6 rounded shadow-2xl w-full">
+        {{message.message}}
+    </div>
+    {% else %}
+        {% include 'partials/_success.twig' with { 'message': 'This message has been destroyed.' } %}
+    {% endif %}
+{% endblock %}

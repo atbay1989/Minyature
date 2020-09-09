@@ -1,11 +1,15 @@
 <?php
 
+session_start();
+
 use Dotenv\Dotenv;
+use Dotenv\Exception\InvalidPathException;
 use Slim\Views\Twig;
 use Slim\Factory\AppFactory;
 use Slim\Views\TwigExtension;
 use Slim\Psr7\Factory\UriFactory;
-use Dotenv\Exception\InvalidPathException;
+use Slim\Flash\Messages;
+
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -34,6 +38,8 @@ $container->set('view', function ($container) use ($app) {
         'cache' => false
     ]);
 
+    $twig->getEnvironment()->addGlobal('messages', $container->get('flash')->getMessages());
+
     $twig->addExtension(
         new TwigExtension(
             $app->getRouteCollector()->getRouteParser(),
@@ -43,6 +49,10 @@ $container->set('view', function ($container) use ($app) {
     );
 
     return $twig;
+});
+
+$container->set('flash', function () {
+    return new Messages();
 });
 
 require_once __DIR__ . '/database.php';
